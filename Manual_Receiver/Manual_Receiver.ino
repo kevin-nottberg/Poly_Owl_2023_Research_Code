@@ -50,26 +50,34 @@
 */
 #define GAIN_LEVEL 6
 
+/*=== Frequency ===
+    - 902 - 928 MHz
+*/
+#define FREQ 915E6
+
+/*=== Over Current Protection ===*/
+#define OCP_MA 240;
+
 void setup()
 {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
+  Serial.begin(115200); // Make sure this baud rate matches your serial console baud rate
   while(!Serial);
 
   LoRa.setPins(CS_PIN, RST_PIN, IRQ_PIN);
-  if(!LoRa.begin(915E6))
+  if(!LoRa.begin(FREQ))
   {
     Serial.println("LoRa init failed. Check your connections");
     while(true);
   }
 
   LoRa.disableCrc();
-  LoRa.setOCP(240);
   
   // Setting the aforementioned configurable parameters
   LoRa.setSpreadingFactor(SPREADING_FACTOR);
   LoRa.setSignalBandwidth(BANDWIDTH);
   LoRa.setCodingRate4(CODING_RATE);
+  
+  LoRa.setOCP(OCP_MA);
   LoRa.setGain(GAIN_LEVEL);
 
   LoRa.onReceive(onReceive);

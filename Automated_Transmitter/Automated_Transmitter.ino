@@ -31,7 +31,12 @@
     - 19
     - 20 
 */
-#define TX_POWER 20
+#define TX_POWER 14
+
+/*=== Frequency ===
+    - 902 - 928 MHz
+*/
+#define FREQ 915E6
 
 
 uint8_t data_packet[PACKET_SIZE];
@@ -42,7 +47,7 @@ void setup() {
 
   LoRa.setPins(CS_PIN, RST_PIN, IRQ_PIN);
 
-  if(!LoRa.begin(915E6))
+  if(!LoRa.begin(FREQ))
   {
     Serial.println("LoRa init failed. Check your connections");
     while(true);
@@ -50,7 +55,6 @@ void setup() {
 
   LoRa.disableCrc();
   LoRa.setTxPower(TX_POWER);
-  LoRa.setOCP(240);
   LoRa.setSignalBandwidth(BANDWIDTH);
 }
 

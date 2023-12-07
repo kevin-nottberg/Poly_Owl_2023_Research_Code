@@ -40,7 +40,7 @@
 */
 #define CODING_RATE 5
 
-/*=== Transmit Power Levels ===
+/*=== Higher Power Transmit PA Levels ===
     - 14
     - 15
     - 16
@@ -49,7 +49,12 @@
     - 19
     - 20 
 */
-#define TX_POWER 20
+#define TX_POWER 14
+
+/*=== Frequency ===
+    - 902 - 928 MHz
+*/
+#define FREQ 915E6
 
 uint8_t message[256];
 int message_len = 0;
@@ -60,7 +65,7 @@ void setup() {
 
   LoRa.setPins(CS_PIN, RST_PIN, IRQ_PIN);
 
-  if(!LoRa.begin(915E6))
+  if(!LoRa.begin(FREQ))
   {
     Serial.println("LoRa init failed. Check your connections");
     while(true);
@@ -69,10 +74,9 @@ void setup() {
   LoRa.idle();
 
   LoRa.disableCrc();
-  LoRa.setOCP(240);
   
   // Setting the aforementioned configurable parameters
-  LoRa.setTxPower(TX_POWER);
+  LoRa.setTxPower(TX_POWER, 1);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);
   LoRa.setSignalBandwidth(BANDWIDTH);
   LoRa.setCodingRate4(CODING_RATE);
